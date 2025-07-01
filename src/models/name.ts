@@ -1,0 +1,6 @@
+export const db= "software-circuit"
+export const questionCollection= "questions"
+export const answerCollection= "comments"
+export const voteCollection= "votes"
+export const questionAttachementBucket= "question-attachement"
+export const commentCollection= "comments"
