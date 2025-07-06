@@ -29,7 +29,7 @@ export async function POST(request:NextRequest){
     } catch ( error:any) {
         return NextResponse.json(
             {
-                error: error?.message || "Error in Creating the answer"
+                error: error?.message || "Error while Creating the answer"
             },
             {
                 status: error?.status || error?.code || 500
