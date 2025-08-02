@@ -1,6 +1,10 @@
-import { create } from "zustand";
+import { create } from "zustand";  //Zustand's create function to define a new global store.
 import { immer } from "zustand/middleware/immer";
+
+//mutate state directly (e.g., state.user = ...) without needing to return a new state object.
 import { persist } from "zustand/middleware";
+
+//persist middleware so the state can be saved to localStorage and restored after page reloads.
 
 import {AppwriteException, ID, Models} from "appwrite"
 import { account } from "@/models/client/config";
@@ -10,11 +14,15 @@ export interface UserPrefs {
   reputation: number
 }
 
+//This defines what your custom user preferences will look like — here, you’re storing a reputation number.
+
 interface IAuthStore {
-  session: Models.Session | null;
-  jwt: string | null
-  user: Models.User<UserPrefs> | null
-  hydrated: boolean
+  session: Models.Session | null; //appwrite sessin
+  jwt: string | null  //appwrite jwt
+  user: Models.User<UserPrefs> | null //logged in user info + prefs
+  hydrated: boolean //whether the store has rehydrated from localStorage
+
+  // The shape of your Zustand store:
 
   setHydrated(): void;
   verfiySession(): Promise<void>;
@@ -40,8 +48,8 @@ interface IAuthStore {
 
 
 export const useAuthStore = create<IAuthStore>()(
-  persist(
-    immer((set) => ({
+  persist( //saves it to local storage
+    immer((set) => ({  //makes state updates easier
       session: null,
       jwt: null,
       user: null,

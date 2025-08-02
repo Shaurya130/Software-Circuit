@@ -2,6 +2,8 @@ import { Permission } from "node-appwrite";
 import { questionAttachementBucket } from "../name";
 import { storage } from "./config";
 
+//middleware calls this to create automatically
+
 export default async function getOrCreateStorage() {
     try {
         await storage.getBucket(questionAttachementBucket);
@@ -9,8 +11,8 @@ export default async function getOrCreateStorage() {
     } catch (error) {
         try {
             await storage.createBucket(
-                questionAttachementBucket,
-                questionAttachementBucket,
+                questionAttachementBucket,//bucket id
+                questionAttachementBucket, //bucket name
                 [
                     Permission.create("users"),
                     Permission.read("any"),
@@ -18,9 +20,9 @@ export default async function getOrCreateStorage() {
                     Permission.update("users"),
                     Permission.delete("users"),
                 ],
-                false,
-                undefined,
-                undefined,
+                false, // No file encryption
+                undefined,// No max size
+                undefined,// allow mime type
                 ["jpg", "png", "gif", "jpeg", "webp", "heic"]
             );
 

@@ -6,6 +6,8 @@ import createVoteCollection from "./vote.collection";
 
 import { databases } from "./config";
 
+//middleware calls this to create automatically
+
 export default async function getOrCreateDB(){
   try {
     await databases.get(db)

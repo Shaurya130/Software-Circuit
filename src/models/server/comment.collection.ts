@@ -17,6 +17,7 @@ export default async function createCommentCollection() {
     await Promise.all([
         databases.createStringAttribute(db, commentCollection, "content", 10000, true),
         databases.createEnumAttribute(db, commentCollection, "type", ["answer", "question"], true),
+        //restricted input either answer or question
         databases.createStringAttribute(db, commentCollection, "typeId", 50, true),
         databases.createStringAttribute(db, commentCollection, "authorId", 50, true),
     ]);
