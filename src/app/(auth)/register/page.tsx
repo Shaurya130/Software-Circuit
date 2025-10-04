@@ -8,6 +8,26 @@ import { IconBrandGithub, IconBrandGoogle } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react'
 
+const DarkModeToggle = () => {
+    const [isDark, setIsDark] = React.useState(false);
+    React.useEffect(() => {
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDark]);
+    return (
+        <button
+            className="absolute top-6 right-6 z-10 px-3 py-1 rounded-full bg-zinc-800 text-white dark:bg-white dark:text-zinc-900 shadow hover:scale-105 transition-all"
+            onClick={() => setIsDark(d => !d)}
+            aria-label="Toggle dark mode"
+        >
+            {isDark ? '🌙 Dark' : '☀️ Light'}
+        </button>
+    );
+};
+
 const BottomGradient=()=>{
     return (
         <>
@@ -27,127 +47,114 @@ const LabelInputContainer = ({
     return <div className={cn("flex w-full flex-col space-y-2", className)}>{children}</div>;
 };
 
+
 export default function RegisterPage() {
-    const {createAccount, login}= useAuthStore();
-    const [isLoading, setIsLoading]=React.useState(false);
-    const [error, setError]= React.useState("");
+    const { createAccount, login } = useAuthStore();
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [error, setError] = React.useState("");
 
-    const handleSubmit= async(e:React.FormEvent<HTMLFormElement>)=>{
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        //collect data
-        const formData= new FormData(e.currentTarget)
-        const firstName= formData.get("firstname")
-        const lasttName= formData.get("lastname")
-        const email= formData.get("email")
-        const password= formData.get("password")
-
-        //validate data
-        if(!firstName || !lasttName || !email || !password)
-        {
-            setError(()=>"Please Set All the Fields")
-            return
+        const formData = new FormData(e.currentTarget);
+        const firstName = formData.get("firstname");
+        const lasttName = formData.get("lastname");
+        const email = formData.get("email");
+        const password = formData.get("password");
+        if (!firstName || !lasttName || !email || !password) {
+            setError(() => "Please fill out all fields");
+            return;
         }
-
-
-        //call the store
         setIsLoading(true);
         setError("");
-
-       const response=  await createAccount(
-            `${firstName} ${lasttName}`, email?.toString(), password?.toString()
-        )
-
-        if(response.error){
-            setError(()=> response.error!.message)
-        } else{
-            const loginResponse=await login(email.toString(), password.toString())
-            if(loginResponse.error){
-                setError(()=>loginResponse.error!.message)
+        const response = await createAccount(
+            `${firstName} ${lasttName}`,
+            email?.toString(),
+            password?.toString()
+        );
+        if (response.error) {
+            setError(() => response.error!.message);
+        } else {
+            const loginResponse = await login(email.toString(), password.toString());
+            if (loginResponse.error) {
+                setError(() => loginResponse.error!.message);
             }
         }
-
         setIsLoading(false);
-    }
-   return (
-        <div className="mx-auto w-full max-w-md rounded-none border border-solid border-white/30 bg-white p-4 shadow-input dark:bg-black md:rounded-2xl md:p-8">
-            <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
-                Welcome to Software Circuit
-            </h2>
-            <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
-                Signup with software circuit if you you don&apos;t have an account.
-                <br /> If you already have an account,{" "}
-                <Link href="/login" className="text-orange-500 hover:underline">
-                    login
-                </Link>{" "}
-                to software-circuit
-            </p>
+    };
 
-            {error && (
-                <p className="mt-8 text-center text-sm text-red-500 dark:text-red-400">{error}</p>
-            )}
-            <form className="my-8" onSubmit={handleSubmit}>
-                <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
-                    <LabelInputContainer>
-                        <Label htmlFor="firstname">First name</Label>
-                        <Input className="text-black" id="firstname" name="firstname" placeholder="Tyler" type="text" />
-                    </LabelInputContainer>
-                    <LabelInputContainer>
-                        <Label htmlFor="lastname">Last name</Label>
-                        <Input className="text-black"  id="lastname" name="lastname" placeholder="Durden" type="text" />
-                    </LabelInputContainer>
+
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-yellow-100 to-white dark:from-zinc-900 dark:via-zinc-800 dark:to-black relative">
+            <DarkModeToggle />
+            <div className="w-full max-w-md rounded-2xl border border-white/30 bg-white/90 dark:bg-zinc-900/90 shadow-2xl p-8 flex flex-col items-center">
+                <div className="mb-6 flex flex-col items-center">
+                    <IconBrandGithub className="h-10 w-10 text-orange-500 mb-2" />
+                    <h2 className="text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Create Your Account</h2>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-300">
+                        Join Software Circuit and start sharing your knowledge!<br />
+                        Already have an account?{' '}
+                        <Link href="/login" className="text-orange-500 hover:underline font-semibold">Login</Link>
+                    </p>
                 </div>
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="email">Email Address</Label>
-                    <Input
-                    className="text-black" 
-                        id="email"
-                        name="email"
-                        placeholder="projectmayhem@fc.com"
-                        type="email"
-                    />
-                </LabelInputContainer>
-                <LabelInputContainer className="mb-4">
-                    <Label htmlFor="password">Password</Label>
-                    <Input className="text-black"  id="password" name="password" placeholder="••••••••" type="password" />
-                </LabelInputContainer>
-
-                <button
-                    className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-                    type="submit"
-                    disabled={isLoading}
-                >
-                    Sign up &rarr;
-                    <BottomGradient />
-                </button>
-
-                <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
-
-                <div className="flex flex-col space-y-4">
+                {error && (
+                    <p className="mb-4 w-full text-center text-sm font-semibold text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/30 rounded-lg py-2 px-3">{error}</p>
+                )}
+                <form className="w-full" onSubmit={handleSubmit}>
+                    <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
+                        <LabelInputContainer>
+                            <Label htmlFor="firstname">First name</Label>
+                            <Input className="text-black dark:text-white" id="firstname" name="firstname" placeholder="Tyler" type="text" />
+                        </LabelInputContainer>
+                        <LabelInputContainer>
+                            <Label htmlFor="lastname">Last name</Label>
+                            <Input className="text-black dark:text-white" id="lastname" name="lastname" placeholder="Durden" type="text" />
+                        </LabelInputContainer>
+                    </div>
+                    <LabelInputContainer className="mb-4">
+                        <Label htmlFor="email">Email Address</Label>
+                        <Input
+                            className="text-black dark:text-white"
+                            id="email"
+                            name="email"
+                            placeholder="projectmayhem@fc.com"
+                            type="email"
+                        />
+                    </LabelInputContainer>
+                    <LabelInputContainer className="mb-6">
+                        <Label htmlFor="password">Password</Label>
+                        <Input className="text-black dark:text-white" id="password" name="password" placeholder="••••••••" type="password" />
+                    </LabelInputContainer>
                     <button
-                        className="group/btn relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black shadow-input dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                        type="button"
+                        className="group/btn relative block h-12 w-full rounded-lg bg-gradient-to-br from-orange-500 to-yellow-400 font-bold text-white shadow-lg hover:scale-[1.03] transition-transform duration-150"
+                        type="submit"
                         disabled={isLoading}
                     >
-                        <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-                        <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                            Google
-                        </span>
+                        Sign up &rarr;
                         <BottomGradient />
                     </button>
-                    <button
-                        className="group/btn relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-50 px-4 font-medium text-black shadow-input dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-                        type="button"
-                        disabled={isLoading}
-                    >
-                        <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-                        <span className="text-sm text-neutral-700 dark:text-neutral-300">
-                            GitHub
-                        </span>
-                        <BottomGradient />
-                    </button>
-                </div>
-            </form>
+                    <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
+                    <div className="flex flex-col space-y-4">
+                        <button
+                            className="group/btn relative flex h-12 w-full items-center justify-center space-x-2 rounded-lg bg-gray-50 dark:bg-zinc-800 px-4 font-bold text-black dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
+                            type="button"
+                            disabled={isLoading}
+                        >
+                            <IconBrandGoogle className="h-5 w-5 text-cyan-500" />
+                            <span className="text-base">Sign up with Google</span>
+                            <BottomGradient />
+                        </button>
+                        <button
+                            className="group/btn relative flex h-12 w-full items-center justify-center space-x-2 rounded-lg bg-gray-50 dark:bg-zinc-800 px-4 font-bold text-black dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
+                            type="button"
+                            disabled={isLoading}
+                        >
+                            <IconBrandGithub className="h-5 w-5 text-neutral-800 dark:text-neutral-300" />
+                            <span className="text-base">Sign up with GitHub</span>
+                            <BottomGradient />
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

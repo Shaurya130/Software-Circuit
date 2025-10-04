@@ -91,8 +91,8 @@ const Answers = ({
                         <VoteButtons
                             type="answer"
                             id={answer.$id}
-                            upvotes={answer.upvotesDocuments}
-                            downvotes={answer.downvotesDocuments}
+                            upvotes={answer.upvotesDocuments || { total: 0, documents: [] }}
+                            downvotes={answer.downvotesDocuments || { total: 0, documents: [] }}
                         />
                         {user?.$id === answer.authorId ? (
                             <button
@@ -108,25 +108,25 @@ const Answers = ({
                         <div className="mt-4 flex items-center justify-end gap-1">
                             <picture>
                                 <img
-                                    src={avatars.getInitials(answer.author.name, 36, 36)}
-                                    alt={answer.author.name}
+                                    src={answer.author ? avatars.getInitials(answer.author.name, 36, 36) : avatars.getInitials('User', 36, 36)}
+                                    alt={answer.author?.name || 'User'}
                                     className="rounded-lg"
                                 />
                             </picture>
                             <div className="block leading-tight">
                                 <Link
-                                    href={`/users/${answer.author.$id}/${slugify(answer.author.name)}`}
+                                    href={answer.author ? `/users/${answer.author.$id}/${slugify(answer.author.name)}` : `/users/${answer.authorId}/user`}
                                     className="text-orange-500 hover:text-orange-600"
                                 >
-                                    {answer.author.name}
+                                    {answer.author?.name || 'User'}
                                 </Link>
                                 <p>
-                                    <strong>{answer.author.reputation}</strong>
+                                    <strong>{answer.author?.reputation || 0}</strong>
                                 </p>
                             </div>
                         </div>
                         <Comments
-                            comments={answer.comments}
+                            comments={answer.comments || { documents: [], total: 0 }}
                             className="mt-4"
                             type="answer"
                             typeId={answer.$id}

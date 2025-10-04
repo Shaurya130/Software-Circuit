@@ -22,7 +22,7 @@ const Comments = ({
     typeId: string;
     className?: string;
 }) => {
-    const [comments, setComments] = React.useState(_comments);
+    const [comments, setComments] = React.useState(_comments || { documents: [], total: 0 });
     const [newComment, setNewComment] = React.useState("");
     const { user } = useAuthStore();
 
@@ -63,18 +63,27 @@ const Comments = ({
 
     return (
         <div className={cn("flex flex-col gap-2 pl-4", className)}>
-            {comments.documents.map(comment => (
+            {(comments?.documents || []).map(comment => (
                 <React.Fragment key={comment.$id}>
                     <hr className="border-white/40" />
                     <div className="flex gap-2">
                         <p className="text-sm">
                             {comment.content} -{" "}
-                            <Link
-                                href={`/users/${comment.authorId}/${slugify(comment.author.name)}`}
-                                className="text-orange-500 hover:text-orange-600"
-                            >
-                                {comment.author.name}
-                            </Link>{" "}
+                            {comment.author ? (
+                                <Link
+                                    href={`/users/${comment.authorId}/${slugify(comment.author.name)}`}
+                                    className="text-orange-500 hover:text-orange-600"
+                                >
+                                    {comment.author.name}
+                                </Link>
+                            ) : (
+                                <Link
+                                    href={`/users/${comment.authorId}/user`}
+                                    className="text-orange-500 hover:text-orange-600"
+                                >
+                                    User
+                                </Link>
+                            )}{" "}
                             <span className="opacity-60">
                                 {convertDateToRelativeTime(new Date(comment.$createdAt))}
                             </span>

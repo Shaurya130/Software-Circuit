@@ -51,7 +51,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
         content: String(question?.content || ""),
         authorId: user?.$id,
         tags: new Set((question?.tags || []) as string[]),
-        attachment: null as File | null,
+        attachement: null as File | null,
     });
 
     const [loading, setLoading] = React.useState(false);
@@ -88,12 +88,12 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
     };
 
     const create = async () => {
-        if (!formData.attachment) throw new Error("Please upload an image");
+        if (!formData.attachement) throw new Error("Please upload an image");
 
         const storageResponse = await storage.createFile(
             questionAttachementBucket,
             ID.unique(),
-            formData.attachment
+            formData.attachement
         );
 
         const response = await databases.createDocument(db, questionCollection, ID.unique(), {
@@ -101,7 +101,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
             content: formData.content,
             authorId: formData.authorId,
             tags: Array.from(formData.tags),
-            attachmentId: storageResponse.$id,
+            attachementId: storageResponse.$id,
         });
 
         loadConfetti();
@@ -112,15 +112,15 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
     const update = async () => {
         if (!question) throw new Error("Please provide a question");
 
-        const attachmentId = await (async () => {
-            if (!formData.attachment) return question?.attachmentId as string;
+        const attachementId = await (async () => {
+            if (!formData.attachement) return question?.attachementId as string;
 
-            await storage.deleteFile(questionAttachementBucket, question.attachmentId);
+            await storage.deleteFile(questionAttachementBucket, question.attachementId);
 
             const file = await storage.createFile(
                 questionAttachementBucket,
                 ID.unique(),
-                formData.attachment
+                formData.attachement
             );
 
             return file.$id;
@@ -131,7 +131,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
             content: formData.content,
             authorId: formData.authorId,
             tags: Array.from(formData.tags),
-            attachmentId: attachmentId,
+            attachementId: attachementId,
         });
 
         return response;
@@ -219,7 +219,7 @@ const QuestionForm = ({ question }: { question?: Models.Document }) => {
                         if (!files || files.length === 0) return;
                         setFormData(prev => ({
                             ...prev,
-                            attachment: files[0],
+                            attachement: files[0],
                         }));
                     }}
                 />

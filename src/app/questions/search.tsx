@@ -22,17 +22,20 @@ const Search = () => {
     };
 
     return (
-        <form className="flex w-full flex-row gap-4" onSubmit={handleSearch}>
-            <Input
-                type="text"
-                placeholder="Search questions"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-            />
-            <button className="shrink-0 rounded bg-orange-500 px-4 py-2 font-bold text-white hover:bg-orange-600">
-                Search
-            </button>
-        </form>
+        <div className="w-full pt-20 pb-4 px-4">
+            <form className="flex w-full flex-row gap-4 max-w-2xl mx-auto" onSubmit={handleSearch}>
+                <Input
+                    type="text"
+                    placeholder="Search questions"
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    className="flex-1"
+                />
+                <button className="shrink-0 rounded bg-orange-500 px-4 py-2 font-bold text-white hover:bg-orange-600">
+                    Search
+                </button>
+            </form>
+        </div>
     );
 };
 

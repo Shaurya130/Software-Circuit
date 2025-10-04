@@ -23,7 +23,7 @@ const VoteButtons = ({
     className?: string;
 }) => {
     const [votedDocument, setVotedDocument] = React.useState<Models.Document | null>(); // undefined means not fetched yet
-    const [voteResult, setVoteResult] = React.useState<number>(upvotes.total - downvotes.total);
+    const [voteResult, setVoteResult] = React.useState<number>((upvotes?.total || 0) - (downvotes?.total || 0));
 
     const { user } = useAuthStore();
     const router = useRouter();
