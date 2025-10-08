@@ -8,26 +8,6 @@ import { IconBrandGithub, IconBrandGoogle } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react'
 
-const DarkModeToggle = () => {
-    const [isDark, setIsDark] = React.useState(false);
-    React.useEffect(() => {
-        if (isDark) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }, [isDark]);
-    return (
-        <button
-            className="absolute top-6 right-6 z-10 px-3 py-1 rounded-full bg-zinc-800 text-white dark:bg-white dark:text-zinc-900 shadow hover:scale-105 transition-all"
-            onClick={() => setIsDark(d => !d)}
-            aria-label="Toggle dark mode"
-        >
-            {isDark ? '🌙 Dark' : '☀️ Light'}
-        </button>
-    );
-};
-
 const BottomGradient=()=>{
     return (
         <>
@@ -84,73 +64,95 @@ export default function RegisterPage() {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-100 via-yellow-100 to-white dark:from-zinc-900 dark:via-zinc-800 dark:to-black relative">
-            <DarkModeToggle />
-            <div className="w-full max-w-md rounded-2xl border border-white/30 bg-white/90 dark:bg-zinc-900/90 shadow-2xl p-8 flex flex-col items-center">
-                <div className="mb-6 flex flex-col items-center">
-                    <IconBrandGithub className="h-10 w-10 text-orange-500 mb-2" />
-                    <h2 className="text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 mb-2">Create Your Account</h2>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-300">
-                        Join Software Circuit and start sharing your knowledge!<br />
-                        Already have an account?{' '}
-                        <Link href="/login" className="text-orange-500 hover:underline font-semibold">Login</Link>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-900 via-black to-zinc-800 relative">
+            <div className="w-full max-w-md rounded-lg border border-zinc-700 bg-zinc-900/80 backdrop-blur shadow-xl p-8">
+                <div className="mb-8 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-500/10 mb-4">
+                        <span className="text-2xl">✨</span>
+                    </div>
+                    <h2 className="text-2xl font-bold text-white mb-2">Join Software Circuit</h2>
+                    <p className="text-zinc-400 text-sm">
+                        Create your account and start coding<br />
+                        <span className="text-zinc-500">Already have an account? </span>
+                        <Link href="/login" className="text-orange-500 hover:text-orange-400 font-medium">Sign in</Link>
                     </p>
                 </div>
                 {error && (
-                    <p className="mb-4 w-full text-center text-sm font-semibold text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/30 rounded-lg py-2 px-3">{error}</p>
+                    <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
+                        <p className="text-sm text-red-400 text-center">{error}</p>
+                    </div>
                 )}
-                <form className="w-full" onSubmit={handleSubmit}>
-                    <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
+                <form className="w-full space-y-4" onSubmit={handleSubmit}>
+                    <div className="grid grid-cols-2 gap-4">
                         <LabelInputContainer>
-                            <Label htmlFor="firstname">First name</Label>
-                            <Input className="text-black dark:text-white" id="firstname" name="firstname" placeholder="Tyler" type="text" />
+                            <Label htmlFor="firstname" className="text-zinc-200">First name</Label>
+                            <Input 
+                                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-orange-500 focus:ring-orange-500/20" 
+                                id="firstname" 
+                                name="firstname" 
+                                placeholder="John" 
+                                type="text" 
+                            />
                         </LabelInputContainer>
                         <LabelInputContainer>
-                            <Label htmlFor="lastname">Last name</Label>
-                            <Input className="text-black dark:text-white" id="lastname" name="lastname" placeholder="Durden" type="text" />
+                            <Label htmlFor="lastname" className="text-zinc-200">Last name</Label>
+                            <Input 
+                                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-orange-500 focus:ring-orange-500/20" 
+                                id="lastname" 
+                                name="lastname" 
+                                placeholder="Doe" 
+                                type="text" 
+                            />
                         </LabelInputContainer>
                     </div>
-                    <LabelInputContainer className="mb-4">
-                        <Label htmlFor="email">Email Address</Label>
+                    <LabelInputContainer>
+                        <Label htmlFor="email" className="text-zinc-200">Email Address</Label>
                         <Input
-                            className="text-black dark:text-white"
+                            className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-orange-500 focus:ring-orange-500/20"
                             id="email"
                             name="email"
-                            placeholder="projectmayhem@fc.com"
+                            placeholder="your@email.com"
                             type="email"
                         />
                     </LabelInputContainer>
-                    <LabelInputContainer className="mb-6">
-                        <Label htmlFor="password">Password</Label>
-                        <Input className="text-black dark:text-white" id="password" name="password" placeholder="••••••••" type="password" />
+                    <LabelInputContainer>
+                        <Label htmlFor="password" className="text-zinc-200">Password</Label>
+                        <Input 
+                            className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500 focus:border-orange-500 focus:ring-orange-500/20" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Create a strong password" 
+                            type="password" 
+                        />
                     </LabelInputContainer>
                     <button
-                        className="group/btn relative block h-12 w-full rounded-lg bg-gradient-to-br from-orange-500 to-yellow-400 font-bold text-white shadow-lg hover:scale-[1.03] transition-transform duration-150"
+                        className="w-full h-11 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         type="submit"
                         disabled={isLoading}
                     >
-                        Sign up &rarr;
-                        <BottomGradient />
+                        {isLoading ? "Creating account..." : "Create Account"}
                     </button>
-                    <div className="my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
-                    <div className="flex flex-col space-y-4">
+                    <div className="my-6 flex items-center">
+                        <div className="flex-1 h-px bg-zinc-700"></div>
+                        <span className="px-3 text-sm text-zinc-500">or continue with</span>
+                        <div className="flex-1 h-px bg-zinc-700"></div>
+                    </div>
+                    <div className="space-y-3">
                         <button
-                            className="group/btn relative flex h-12 w-full items-center justify-center space-x-2 rounded-lg bg-gray-50 dark:bg-zinc-800 px-4 font-bold text-black dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
+                            className="flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
                             type="button"
                             disabled={isLoading}
                         >
-                            <IconBrandGoogle className="h-5 w-5 text-cyan-500" />
-                            <span className="text-base">Sign up with Google</span>
-                            <BottomGradient />
+                            <IconBrandGoogle className="h-5 w-5 mr-3" />
+                            <span>Continue with Google</span>
                         </button>
                         <button
-                            className="group/btn relative flex h-12 w-full items-center justify-center space-x-2 rounded-lg bg-gray-50 dark:bg-zinc-800 px-4 font-bold text-black dark:text-white shadow-lg hover:bg-gray-100 dark:hover:bg-zinc-700 transition-colors"
+                            className="flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
                             type="button"
                             disabled={isLoading}
                         >
-                            <IconBrandGithub className="h-5 w-5 text-neutral-800 dark:text-neutral-300" />
-                            <span className="text-base">Sign up with GitHub</span>
-                            <BottomGradient />
+                            <IconBrandGithub className="h-5 w-5 mr-3" />
+                            <span>Continue with GitHub</span>
                         </button>
                     </div>
                 </form>
