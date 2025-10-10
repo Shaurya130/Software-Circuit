@@ -47,17 +47,17 @@ export async function POST(request: NextRequest) {
             });
 
             // Increate/Decrease the reputation of the question/answer author accordingly
-            const questionOrAnswer = await databases.getDocument(
+            const currentQuestionOrAnswer = await databases.getDocument(
                 db,
                 type === "question" ? questionCollection : answerCollection,
                 typeId
             );
 
-            const authorPrefs = await users.getPrefs<UserPrefs>(questionOrAnswer.authorId);
+            const authorPrefs = await users.getPrefs<UserPrefs>(currentQuestionOrAnswer.authorId);
 
             // if vote was present
             if (response.documents[0]) {
-                await users.updatePrefs<UserPrefs>(questionOrAnswer.authorId, {
+                await users.updatePrefs<UserPrefs>(currentQuestionOrAnswer.authorId, {
                     reputation:
                         // that means prev vote was "upvoted" and new value is "downvoted" so we have to decrease the reputation
                         response.documents[0].voteStatus === "upvoted"
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
                             : Number(authorPrefs.reputation) + 1,
                 });
             } else {
-                await users.updatePrefs<UserPrefs>(questionOrAnswer.authorId, {
+                await users.updatePrefs<UserPrefs>(currentQuestionOrAnswer.authorId, {
                     reputation:
                         // that means prev vote was "upvoted" and new value is "downvoted" so we have to decrease the reputation
                         voteStatus === "upvoted"
@@ -95,23 +95,28 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             data:{
                 document:null,
-                voteResult:upvotes.total= downvotes.total,
+                voteResult:upvotes.total - downvotes.total,
             },
-            messsage:"Vote Handled"
+            message:"Vote Handled"
         })
 
 
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : "Error in voting";
-        const status = (error as any)?.status || (error as any)?.code || 500;
+        let status = 500;
+        if (error && typeof error === 'object' && 'status' in error) {
+            status = typeof error.status === 'number' ? error.status : 500;
+        } else if (error && typeof error === 'object' && 'code' in error) {
+            status = typeof error.code === 'number' ? error.code : 500;
+        }
         return NextResponse.json(
             {
                 error: message
             },
             {
                 status: status
-                    }
-                )
+            }
+        )
     }
     
 } 

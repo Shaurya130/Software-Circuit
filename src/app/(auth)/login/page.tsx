@@ -93,11 +93,12 @@ export default function Login() {
                         />
                     </LabelInputContainer>
                     <button
-                        className="w-full h-11 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="group/btn relative w-full h-11 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         type="submit"
                         disabled={isLoading}
                     >
                         {isLoading ? "Signing in..." : "Sign In"}
+                        <BottomGradient />
                     </button>
                     <div className="my-6 flex items-center">
                         <div className="flex-1 h-px bg-zinc-700"></div>
@@ -106,20 +107,22 @@ export default function Login() {
                     </div>
                     <div className="space-y-3">
                         <button
-                            className="flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
+                            className="group/btn relative flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
                             type="button"
                             disabled={isLoading}
                         >
                             <IconBrandGoogle className="h-5 w-5 mr-3" />
                             <span>Continue with Google</span>
+                            <BottomGradient />
                         </button>
                         <button
-                            className="flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
+                            className="group/btn relative flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
                             type="button"
                             disabled={isLoading}
                         >
                             <IconBrandGithub className="h-5 w-5 mr-3" />
                             <span>Continue with GitHub</span>
+                            <BottomGradient />
                         </button>
                     </div>
                 </form>

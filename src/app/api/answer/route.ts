@@ -26,9 +26,14 @@ export async function POST(request:NextRequest){
 
         })
         
-    } catch ( error: unknown) {
+    } catch (error: unknown) {
         const message = error instanceof Error ? error.message : "Error while Creating the answer";
-        const status = (error as any)?.status || (error as any)?.code || 500;
+        let status = 500;
+        if (error && typeof error === 'object' && 'status' in error) {
+            status = typeof error.status === 'number' ? error.status : 500;
+        } else if (error && typeof error === 'object' && 'code' in error) {
+            status = typeof error.code === 'number' ? error.code : 500;
+        }
         return NextResponse.json(
             {
                 error: message
@@ -62,7 +67,12 @@ export async function DELETE(request:NextRequest){
     }
     catch (error: unknown) {
         const message = error instanceof Error ? error.message : "Error in deleting the answer";
-        const status = (error as any)?.status || (error as any)?.code || 500;
+        let status = 500;
+        if (error && typeof error === 'object' && 'status' in error) {
+            status = typeof error.status === 'number' ? error.status : 500;
+        } else if (error && typeof error === 'object' && 'code' in error) {
+            status = typeof error.code === 'number' ? error.code : 500;
+        }
         return NextResponse.json(
             {
                 error: message
@@ -71,6 +81,5 @@ export async function DELETE(request:NextRequest){
                 status: status
             }
         )
-    
     }
 }
