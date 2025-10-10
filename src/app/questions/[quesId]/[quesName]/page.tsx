@@ -18,8 +18,8 @@ import { storage } from "@/models/client/config";
 import { UserPrefs } from "@/store/Auth";
 import convertDateToRelativeTime from "@/utils/relativeTime";
 import slugify from "@/utils/slugify";
-import { IconEdit } from "@tabler/icons-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Query } from "node-appwrite";
 import React from "react";
 import DeleteQuestion from "@/app/questions/[quesId]/[quesName]/DeleteQuestion";
@@ -27,7 +27,7 @@ import EditQuestion from "@/app/questions/[quesId]/[quesName]/EditQuestion";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 
 const Page = async ({ params }: { params: Promise<{ quesId: string; quesName: string }> }) => {
-    const { quesId, quesName } = await params;
+    const { quesId } = await params;
     if (!quesId) {
         return (
             <div className="text-center text-red-500 py-20 text-xl font-bold">
@@ -86,7 +86,7 @@ const Page = async ({ params }: { params: Promise<{ quesId: string; quesName: st
 
                             {question.attachementId && (
                                 <div className="mb-8">
-                                    <img
+                                    <Image
                                         src={storage.getFilePreview(
                                             questionAttachementBucket,
                                             question.attachementId,
@@ -94,6 +94,8 @@ const Page = async ({ params }: { params: Promise<{ quesId: string; quesName: st
                                             300
                                         )}
                                         alt="Question attachment"
+                                        width={300}
+                                        height={300}
                                         className="rounded-lg max-w-full h-auto"
                                     />
                                 </div>
@@ -112,9 +114,11 @@ const Page = async ({ params }: { params: Promise<{ quesId: string; quesName: st
 
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
-                                    <img
+                                    <Image
                                         src={avatars.getInitials(author.name, 40, 40)}
                                         alt={author.name}
+                                        width={40}
+                                        height={40}
                                         className="rounded-full"
                                     />
                                     <div>

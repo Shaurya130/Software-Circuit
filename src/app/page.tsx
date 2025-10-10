@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Header from "@/app/components/Header";
 import HeroSectionHeader from "@/app/components/HeroSectionHeader";
 import LatestQuestin from "@/app/components/LatestQuestin";
 import TopContributor from "@/app/components/TopContributor";

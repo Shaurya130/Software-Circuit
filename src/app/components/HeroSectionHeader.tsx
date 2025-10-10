@@ -5,6 +5,7 @@ import {Particles} from "@/components/magicui/particles";
 import {ShimmerButton} from "@/components/magicui/shimmer-button";
 import { useAuthStore } from "@/store/Auth";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 
 const techIcons = [
@@ -99,9 +100,11 @@ const HeroSectionHeader = () => {
                                                 animationDuration: '2s'
                                             }}
                                         >
-                                            <img
+                                            <Image
                                                 src={`https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${tech.name}.svg`}
                                                 alt={tech.name}
+                                                width={20}
+                                                height={20}
                                                 className="w-5 h-5"
                                                 style={{ 
                                                     filter: tech.color === '#000000' || tech.color === '#181717' 

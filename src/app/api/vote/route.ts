@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
         //that means previous vote status does not exist or status hasbeen changed
         if(response.documents[0]?.voteStatus !== voteStatus){
-            const doc = await databases.createDocument(db, voteCollection, ID.unique(), {
+            await databases.createDocument(db, voteCollection, ID.unique(), {
                 type,
                 typeId,
                 voteStatus,
@@ -101,13 +101,15 @@ export async function POST(request: NextRequest) {
         })
 
 
-    } catch (error:any) {
-                return NextResponse.json(
-                    {
-                        error: error?.message || "Error in voting"
-                    },
-                    {
-                        status: error?.status || error?.code || 500
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Error in voting";
+        const status = (error as any)?.status || (error as any)?.code || 500;
+        return NextResponse.json(
+            {
+                error: message
+            },
+            {
+                status: status
                     }
                 )
     }

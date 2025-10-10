@@ -26,13 +26,15 @@ export async function POST(request:NextRequest){
 
         })
         
-    } catch ( error:any) {
+    } catch ( error: unknown) {
+        const message = error instanceof Error ? error.message : "Error while Creating the answer";
+        const status = (error as any)?.status || (error as any)?.code || 500;
         return NextResponse.json(
             {
-                error: error?.message || "Error while Creating the answer"
+                error: message
             },
             {
-                status: error?.status || error?.code || 500
+                status: status
             }
         )
     }
@@ -58,14 +60,15 @@ export async function DELETE(request:NextRequest){
             {status: 200}
         )
     }
-    catch (error:any) {
-        
+    catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Error in deleting the answer";
+        const status = (error as any)?.status || (error as any)?.code || 500;
         return NextResponse.json(
             {
-                error: error?.message || "Error in deleting the answer"
+                error: message
             },
             {
-                status: error?.status || error?.code || 500
+                status: status
             }
         )
     

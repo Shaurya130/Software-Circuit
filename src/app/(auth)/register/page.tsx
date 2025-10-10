@@ -11,7 +11,7 @@ import React from 'react'
 const BottomGradient=()=>{
     return (
         <>
-        <span className='absolute insert-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100'/>
+        <span className='absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100'/>
         <span className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
         </>
     )
@@ -126,11 +126,12 @@ export default function RegisterPage() {
                         />
                     </LabelInputContainer>
                     <button
-                        className="w-full h-11 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="group/btn relative w-full h-11 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         type="submit"
                         disabled={isLoading}
                     >
                         {isLoading ? "Creating account..." : "Create Account"}
+                        <BottomGradient />
                     </button>
                     <div className="my-6 flex items-center">
                         <div className="flex-1 h-px bg-zinc-700"></div>
@@ -139,20 +140,22 @@ export default function RegisterPage() {
                     </div>
                     <div className="space-y-3">
                         <button
-                            className="flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
+                            className="group/btn relative flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
                             type="button"
                             disabled={isLoading}
                         >
                             <IconBrandGoogle className="h-5 w-5 mr-3" />
                             <span>Continue with Google</span>
+                            <BottomGradient />
                         </button>
                         <button
-                            className="flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
+                            className="group/btn relative flex items-center justify-center w-full h-11 px-4 border border-zinc-700 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg transition-colors duration-200"
                             type="button"
                             disabled={isLoading}
                         >
                             <IconBrandGithub className="h-5 w-5 mr-3" />
                             <span>Continue with GitHub</span>
+                            <BottomGradient />
                         </button>
                     </div>
                 </form>
