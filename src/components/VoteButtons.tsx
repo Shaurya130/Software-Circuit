@@ -9,6 +9,9 @@ import { ID, Models, Query } from "appwrite";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+console.log(ID);
+
+
 const VoteButtons = ({
     type,
     id,

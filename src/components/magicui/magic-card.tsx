@@ -170,9 +170,9 @@ const MagicCard: React.FC<MagicCardProps> = ({
     className,
     children,
     size = 600,
-    spotlight = true,
+    // spotlight = true,
     borderColor = "hsl(0 0% 98%)",
-    isolated = true,
+    // isolated = true,
     ...props
 }) => {
     return (

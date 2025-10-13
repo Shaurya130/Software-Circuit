@@ -2,6 +2,9 @@ import { IndexType, Permission } from "node-appwrite";
 import { answerCollection, db } from "../name";
 import { databases } from "./config";
 
+console.log(IndexType);
+
+
 export default async function createAnswerCollection() {
     // Creating Collection
     await databases.createCollection(db, answerCollection, answerCollection, [

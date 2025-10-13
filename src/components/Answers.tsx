@@ -12,6 +12,15 @@ import slugify from "@/utils/slugify";
 import Link from "next/link";
 import { IconTrash } from "@tabler/icons-react";
 
+console.log(ID);
+console.log(databases);
+console.log(answerCollection);
+console.log(db);
+
+
+
+
+
 const Answers = ({
     answers: _answers,
     questionId,
