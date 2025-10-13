@@ -1,3 +1,6 @@
+'use server';
+
+
 import { Permission } from "node-appwrite";
 import { questionAttachementBucket } from "../name";
 import { storage } from "./config";

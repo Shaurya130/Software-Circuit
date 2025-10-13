@@ -1,3 +1,6 @@
+'use server';
+
+
 import { Permission } from "node-appwrite";
 import { db, voteCollection } from "../name";
 import { databases } from "./config";

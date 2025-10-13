@@ -1,3 +1,5 @@
+"use client";
+
 import Answers from "@/components/Answers";
 import Comments from "@/components/Comments";
 import { MarkdownPreview } from "@/components/RTE";

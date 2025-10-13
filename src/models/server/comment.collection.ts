@@ -1,3 +1,5 @@
+'use server';
+
 import { Permission } from "node-appwrite";
 import { commentCollection, db } from "../name";
 import { databases } from "./config";
