@@ -1,40 +1,37 @@
 'use server';
 
-
 import { Permission } from "node-appwrite";
 import { questionAttachementBucket } from "../name";
-import { storage } from "./config";
+import { storage } from "./config"; // ensure this file doesn't use 'use server'
 
-//middleware calls this to create automatically
+// ✅ Export only async functions
+export async function getOrCreateStorage() {
+  try {
+    await storage.getBucket(questionAttachementBucket);
+    console.log("Storage Connected");
+  } catch (error) {
+    console.log("Bucket not found, creating new bucket...");
 
-export default async function getOrCreateStorage() {
     try {
-        await storage.getBucket(questionAttachementBucket);
-        console.log("Storage Connected");
-    } catch (error) {
-        console.log(error);
-        
-        try {
-            await storage.createBucket(
-                questionAttachementBucket,//bucket id
-                questionAttachementBucket, //bucket name
-                [
-                    Permission.create("users"),
-                    Permission.read("any"),
-                    Permission.read("users"),
-                    Permission.update("users"),
-                    Permission.delete("users"),
-                ],
-                false, // No file encryption
-                undefined,// No max size
-                undefined,// allow mime type
-                ["jpg", "png", "gif", "jpeg", "webp", "heic"]
-            );
+      await storage.createBucket(
+        questionAttachementBucket,
+        questionAttachementBucket,
+        [
+          Permission.create("users"),
+          Permission.read("any"),
+          Permission.read("users"),
+          Permission.update("users"),
+          Permission.delete("users"),
+        ],
+        false,
+        undefined,
+        undefined,
+        ["jpg", "png", "gif", "jpeg", "webp", "heic"]
+      );
 
-            console.log("Storage Created");
-            console.log("Storage Connected");
-        } catch (error) {
-            console.error("Error creating storage:", error);
-        }
+      console.log("Storage Created & Connected");
+    } catch (error) {
+      console.error("Error creating storage:", error);
     }
+  }
 }
