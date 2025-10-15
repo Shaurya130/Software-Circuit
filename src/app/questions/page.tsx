@@ -1,51 +1,72 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Pagination from "@/components/Pagination";
+import QuestionCard from "@/components/QuestionCard";
+import { answerCollection, db, questionCollection, voteCollection } from "@/models/name";
+import { databases, users } from "@/models/server/config";
+import { UserPrefs } from "@/store/Auth";
+import { Query } from "node-appwrite";
 import React from "react";
 
-// Force dynamic rendering to prevent prerender errors with search params
-export const dynamic = 'force-dynamic';
+const Page = async ({
+    params,
+    searchParams,
+}: {
+    params: { userId: string; userSlug: string };
+    searchParams: { page?: string };
+}) => {
+    searchParams.page ||= "1";
 
-const Search = () => {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const router = useRouter();
-    const [search, setSearch] = React.useState("");
+    const queries = [
+        Query.equal("authorId", params.userId),
+        Query.orderDesc("$createdAt"),
+        Query.offset((+searchParams.page - 1) * 25),
+        Query.limit(25),
+    ];
 
-    React.useEffect(() => {
-        const searchValue = searchParams.get("search") || "";
-        setSearch(searchValue);
-    }, [searchParams]);
+    const questions = await databases.listDocuments(db, questionCollection, queries);
 
-    const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const newSearchParams = new URLSearchParams(searchParams);
-        newSearchParams.set("search", search);
-        router.push(`${pathname}?${newSearchParams}`);
-    };
+    questions.documents = await Promise.all(
+        questions.documents.map(async ques => {
+            const [author, answers, votes] = await Promise.all([
+                users.get<UserPrefs>(ques.authorId),
+                databases.listDocuments(db, answerCollection, [
+                    Query.equal("questionId", ques.$id),
+                    Query.limit(1), // for optimization
+                ]),
+                databases.listDocuments(db, voteCollection, [
+                    Query.equal("type", "question"),
+                    Query.equal("typeId", ques.$id),
+                    Query.limit(1), // for optimization
+                ]),
+            ]);
+
+            return {
+                ...ques,
+                totalAnswers: answers.total,
+                totalVotes: votes.total,
+                author: {
+                    $id: author.$id,
+                    reputation: author.prefs.reputation,
+                    name: author.name,
+                },
+            };
+        })
+    );
 
     return (
-        <div className="w-full pt-12 pb-8 px-6 bg-gradient-to-br from-black to-zinc-900 min-h-screen">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl font-bold text-center mb-10 text-neutral-100 tracking-tight">
-                    Search Questions
-                </h1>
-                <form className="flex w-full flex-row gap-6 max-w-3xl mx-auto" onSubmit={handleSearch}>
-                    <Input
-                        type="text"
-                        placeholder="Search questions..."
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                        className="flex-1 bg-zinc-800/50 backdrop-blur-sm border-zinc-700 text-white placeholder-zinc-400 h-12 text-lg rounded-xl"
-                    />
-                    <button className="shrink-0 rounded-xl bg-orange-500 px-8 py-3 font-bold text-white hover:bg-orange-600 transition-colors shadow-lg">
-                        Search
-                    </button>
-                </form>
+        <div className="px-4">
+            <div className="mb-4">
+                <p>{questions.total} questions</p>
             </div>
+            <div className="mb-4 max-w-3xl space-y-6">
+                {questions.documents.map(ques => (
+                    <QuestionCard key={ques.$id} ques={ques} />
+                ))}
+            </div>
+            <Pagination total={questions.total} limit={25} />
         </div>
     );
 };
 
-export default Search;
+export default Page;
