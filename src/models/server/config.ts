@@ -1,5 +1,3 @@
-'use server';
-
 import env from "@/app/env";
 import { Client, Avatars, Databases, Users, Storage } from "node-appwrite";
 

@@ -5,7 +5,7 @@ import { questionAttachementBucket } from "../name";
 import { storage } from "./config"; // ensure this file doesn't use 'use server'
 
 // ✅ Export only async functions
-export async function getOrCreateStorage() {
+export default async function getOrCreateStorage() {
   try {
     await storage.getBucket(questionAttachementBucket);
     console.log("Storage Connected");
