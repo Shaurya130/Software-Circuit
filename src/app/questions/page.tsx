@@ -4,14 +4,18 @@ import { Input } from "@/components/ui/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
+// Force dynamic rendering to prevent prerender errors with search params
+export const dynamic = 'force-dynamic';
+
 const Search = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
-    const [search, setSearch] = React.useState(searchParams.get("search") || "");
+    const [search, setSearch] = React.useState("");
 
     React.useEffect(() => {
-        setSearch(() => searchParams.get("search") || "");
+        const searchValue = searchParams.get("search") || "";
+        setSearch(searchValue);
     }, [searchParams]);
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
