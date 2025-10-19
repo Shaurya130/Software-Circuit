@@ -35,19 +35,20 @@ const Pagination = ({
     };
 
     return (
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
             <button
-                className={`${className} rounded-lg bg-white/10 px-2 py-0.5 duration-200 hover:bg-white/20`}
+                className={`${className} rounded-lg bg-white/10 px-3 sm:px-4 py-2 text-sm font-medium duration-200 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed min-w-[80px]`}
                 onClick={prev}
                 disabled={page <= "1"}
             >
-                Previous
+                <span className="hidden sm:inline">Previous</span>
+                <span className="sm:hidden">Prev</span>
             </button>
-            <span>
-                {page} of {totalPages || "1"} {/* incase totalPage is 0 */}
+            <span className="text-sm text-gray-400 order-first sm:order-none py-1">
+                Page {page} of {totalPages || "1"}
             </span>
             <button
-                className={`${className} rounded-lg bg-white/10 px-2 py-0.5 duration-200 hover:bg-white/20`}
+                className={`${className} rounded-lg bg-white/10 px-3 sm:px-4 py-2 text-sm font-medium duration-200 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed min-w-[80px]`}
                 onClick={next}
                 disabled={page >= `${totalPages}`}
             >

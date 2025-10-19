@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 
 function Footer() {
   return (
-    <footer className="w-full text-center py-6 bg-black/90 border-t border-zinc-800 mt-8">
-      <span className="text-sm text-neutral-400">&copy; {new Date().getFullYear()} Software Circuit. All rights reserved.</span>
+    <footer className="w-full text-center py-4 sm:py-6 bg-black/90 border-t border-zinc-800 mt-8">
+      <span className="text-xs sm:text-sm text-neutral-400 px-4">&copy; {new Date().getFullYear()} Software Circuit. All rights reserved.</span>
     </footer>
   );
 }
@@ -39,7 +39,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-gradient-to-br from-black to-zinc-900 min-h-screen flex flex-col text-base`}>
         <Header />
-        <div className="flex-1 flex flex-col pt-24">
+        <div className="flex-1 flex flex-col pt-20 sm:pt-24">
           {children}
         </div>
         <Footer />

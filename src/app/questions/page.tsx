@@ -1,5 +1,3 @@
-"use client";
-
 import Pagination from "@/components/Pagination";
 import QuestionCard from "@/components/QuestionCard";
 import { answerCollection, db, questionCollection, voteCollection } from "@/models/name";
@@ -9,20 +7,22 @@ import { Query } from "node-appwrite";
 import React from "react";
 
 const Page = async ({
-    params,
     searchParams,
 }: {
-    params: { userId: string; userSlug: string };
-    searchParams: { page?: string };
+    searchParams: { page?: string; tag?: string };
 }) => {
     searchParams.page ||= "1";
 
     const queries = [
-        Query.equal("authorId", params.userId),
         Query.orderDesc("$createdAt"),
         Query.offset((+searchParams.page - 1) * 25),
         Query.limit(25),
     ];
+
+    // Add tag filter if provided
+    if (searchParams.tag) {
+        queries.push(Query.search("tags", searchParams.tag));
+    }
 
     const questions = await databases.listDocuments(db, questionCollection, queries);
 
@@ -55,16 +55,19 @@ const Page = async ({
     );
 
     return (
-        <div className="px-4">
-            <div className="mb-4">
-                <p>{questions.total} questions</p>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div className="mb-4 sm:mb-6">
+                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">All Questions</h1>
+                <p className="text-gray-400 text-sm sm:text-base">{questions.total} questions</p>
             </div>
-            <div className="mb-4 max-w-3xl space-y-6">
+            <div className="mb-6 sm:mb-8 max-w-5xl space-y-4 sm:space-y-6">
                 {questions.documents.map(ques => (
                     <QuestionCard key={ques.$id} ques={ques} />
                 ))}
             </div>
-            <Pagination total={questions.total} limit={25} />
+            <div className="flex justify-center">
+                <Pagination total={questions.total} limit={25} />
+            </div>
         </div>
     );
 };

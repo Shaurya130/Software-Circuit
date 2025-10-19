@@ -33,45 +33,45 @@ const HeroSectionHeader = () => {
     const { session } = useAuthStore();
 
     return (
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <Particles
                 className="fixed inset-0 h-full w-full"
-                quantity={500}
+                quantity={300}
                 ease={100}
                 color="#ffffff"
                 refresh
             />
-            <div className="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="flex items-center justify-center">
-                    <div className="space-y-4 text-center">
-                        <h1 className="pointer-events-none z-10 whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-center text-6xl font-bold leading-tight tracking-tighter text-transparent">
+            <div className="relative z-10 grid grid-cols-1 gap-8 lg:gap-12 lg:grid-cols-2">
+                <div className="flex items-center justify-center order-2 lg:order-1">
+                    <div className="space-y-6 text-center lg:text-left max-w-xl">
+                        <h1 className="pointer-events-none z-10 whitespace-pre-wrap bg-gradient-to-b from-[#ffd319] via-[#ff2975] to-[#8c1eff] bg-clip-text text-center lg:text-left text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tighter text-transparent">
                             Software-Circuit
                         </h1>
-                        <p className="text-center text-xl font-medium leading-relaxed tracking-normal text-gray-300 max-w-2xl mx-auto">
+                        <p className="text-center lg:text-left text-lg sm:text-xl font-medium leading-relaxed tracking-normal text-gray-300">
                             Ask questions, share knowledge, and collaborate with developers
                             worldwide. Join our community and enhance your coding skills!
                         </p>
-                        <div className="flex items-center justify-center gap-4">
+                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                             {session ? (
                                 <Link href="/questions/ask">
-                                    <ShimmerButton className="shadow-2xl">
-                                        <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-base">
+                                    <ShimmerButton className="shadow-2xl w-full sm:w-auto">
+                                        <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-base px-4">
                                             Ask a question
                                         </span>
                                     </ShimmerButton>
                                 </Link>
                             ) : (
                                 <>
-                                    <Link href="/register">
-                                        <ShimmerButton className="shadow-2xl">
-                                            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+                                    <Link href="/register" className="w-full sm:w-auto">
+                                        <ShimmerButton className="shadow-2xl w-full">
+                                            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg px-4">
                                                 Sign up
                                             </span>
                                         </ShimmerButton>
                                     </Link>
                                     <Link
                                         href="/login"
-                                        className="relative rounded-full border border-neutral-200 px-8 py-3 font-medium text-black dark:border-white/[0.2] dark:text-white"
+                                        className="relative rounded-full border border-neutral-200 px-6 sm:px-8 py-3 font-medium text-black dark:border-white/[0.2] dark:text-white w-full sm:w-auto text-center"
                                     >
                                         <span>Login</span>
                                         <span className="absolute inset-x-0 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
@@ -81,19 +81,19 @@ const HeroSectionHeader = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex items-center justify-center">
-                    <div className="relative w-full h-96 max-w-lg flex items-center justify-center">
-                        <div className="w-80 h-80 relative">
+                <div className="flex items-center justify-center order-1 lg:order-2">
+                    <div className="relative w-full h-64 sm:h-80 lg:h-96 max-w-sm sm:max-w-md lg:max-w-lg flex items-center justify-center">
+                        <div className="w-64 h-64 sm:w-80 sm:h-80 relative">
                             <IconCloud 
                                 images={techIcons.map(tech => `https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/${tech.name}.svg`)}
                             />
                             {/* Fallback visible grid if IconCloud doesn't render */}
                             <div className="absolute inset-0 flex items-center justify-center opacity-90">
-                                <div className="grid grid-cols-6 gap-5">
-                                    {techIcons.slice(0, 18).map((tech, index) => (
+                                <div className="grid grid-cols-4 sm:grid-cols-6 gap-3 sm:gap-5">
+                                    {techIcons.slice(0, 16).map((tech, index) => (
                                         <div
                                             key={tech.name}
-                                            className="w-8 h-8 rounded-lg flex items-center justify-center animate-pulse"
+                                            className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center animate-pulse"
                                             style={{ 
                                                 backgroundColor: tech.color,
                                                 animationDelay: `${index * 0.1}s`,
@@ -105,7 +105,7 @@ const HeroSectionHeader = () => {
                                                 alt={tech.name}
                                                 width={20}
                                                 height={20}
-                                                className="w-5 h-5"
+                                                className="w-4 h-4 sm:w-5 sm:h-5"
                                                 style={{ 
                                                     filter: tech.color === '#000000' || tech.color === '#181717' 
                                                         ? 'invert(1)' 

@@ -53,8 +53,8 @@ export default function Login() {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-900 via-black to-zinc-800 relative">
-            <div className="w-full max-w-md rounded-lg border border-zinc-700 bg-zinc-900/80 backdrop-blur shadow-xl p-8">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-900 via-black to-zinc-800 relative px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-md rounded-lg border border-zinc-700 bg-zinc-900/80 backdrop-blur shadow-xl p-6 sm:p-8">
                 <div className="mb-8 text-center">
                     <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-500/10 mb-4">
                         <span className="text-2xl">🚀</span>
