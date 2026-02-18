@@ -2,6 +2,7 @@ import HeroSectionHeader from "@/app/components/HeroSectionHeader";
 import LatestQuestin from "@/app/components/LatestQuestin";
 import TopContributor from "@/app/components/TopContributor";
 
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen w-full bg-gradient-to-br from-black to-zinc-900">

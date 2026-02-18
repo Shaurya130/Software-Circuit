@@ -33,8 +33,8 @@ export default function Login() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [error, setError] = React.useState("");
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {  //type defination of event (ts)
+        e.preventDefault(); //avoids action/ reloading of page
         const formData = new FormData(e.currentTarget);
         const email = formData.get("email");
         const password = formData.get("password");
@@ -56,6 +56,7 @@ export default function Login() {
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-zinc-900 via-black to-zinc-800 relative px-4 sm:px-6 lg:px-8">
             <div className="w-full max-w-md rounded-lg border border-zinc-700 bg-zinc-900/80 backdrop-blur shadow-xl p-6 sm:p-8">
                 <div className="mb-8 text-center">
+                    
                     <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-500/10 mb-4">
                         <span className="text-2xl">🚀</span>
                     </div>

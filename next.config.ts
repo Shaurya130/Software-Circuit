@@ -15,6 +15,26 @@ const nextConfig: NextConfig = {
       allowedOrigins: ["*"],
     },
   },
+  images: {
+    // ✅ Allow images from external domains
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.appwrite.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'fra.cloud.appwrite.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.jsdelivr.net',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
